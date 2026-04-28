@@ -12,7 +12,7 @@
                 halaman ini menampilkan data mahasiswa yang ada di database, dengan fitur tambah, edit, dan hapus data mahasiswa
             </p>
 
-            <a href="#" class="btn btn-primary mb-3">Tambah Data</a>
+            <a href="{{ route('form-mahasiswa') }}" class="btn btn-primary mb-3">Tambah Data</a>
 
             <table class="table table-bordered">
                 <thead class="table-light">
@@ -32,8 +32,12 @@
                         <td>{{ $mahasiswa->nidn }}</td>
                         <td>{{ $mahasiswa->nama }}</td>
                         <td>
-                            <button class="btn btn-danger btn-sm">Hapus</button>
-                            <button class="btn btn-warning btn-sm">Edit</button>
+                            <form action="{{ route('mahasiswa.destroy', $mahasiswa->npm) }}" method="POST" style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
+                            </form>
+                            <a href="{{ route('form-edit-mahasiswa', $mahasiswa->npm) }}" class="btn btn-warning btn-sm">Edit</a>
                         </td>
                     </tr>
                     @endforeach

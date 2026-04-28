@@ -10,5 +10,5 @@ class Mahasiswa extends Model
 
     protected $primaryKey = 'npm';
 
-    protected $guarded = ['npm','nidn', 'nama','created_at', 'updated_at' ];
+    protected $guarded = ['created_at', 'updated_at' ];
 }

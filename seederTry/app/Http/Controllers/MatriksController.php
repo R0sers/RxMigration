@@ -23,7 +23,7 @@ class MatriksController extends Controller
      */
     public function create()
     {
-        //
+        return view('matriks.form-matriks');
     }
 
     /**
@@ -31,7 +31,15 @@ class MatriksController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'id' => 'required|numeric|unique:jadwal',
+            'kode_matakuliah' => 'required',
+            'nidn' => 'required|numeric',
+            'kelas' => 'required',
+            'hari' => 'required',
+        ]);
+        Jadwal::create($validated);
+        return redirect()->route('matriks')->with('add', 'Data berhasil ditambah');
     }
 
     /**
@@ -39,7 +47,7 @@ class MatriksController extends Controller
      */
     public function show(string $id)
     {
-        //
+        
     }
 
     /**
@@ -47,7 +55,8 @@ class MatriksController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $dataJadwal = Jadwal::where('id', $id)->firstOrFail();
+        return view('matriks.form-edit-matriks', compact('dataJadwal'));
     }
 
     /**
@@ -55,7 +64,17 @@ class MatriksController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'kode_matakuliah' => 'required',
+            'nidn' => 'required|numeric',
+            'kelas' => 'required',
+            'hari' => 'required',
+        ]);
+
+        $dataJadwal = Jadwal::where('id', $id)->firstOrFail();
+        $dataJadwal->update($validated);
+
+        return redirect()->route('matriks')->with('edit', 'Data berhasil diubah');
     }
 
     /**
@@ -63,6 +82,9 @@ class MatriksController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Jadwal::where('id', $id)->delete();
+
+        return redirect()->route('matriks')
+                ->with('delete', 'Data berhasil dihapus');
     }
 }

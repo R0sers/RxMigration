@@ -10,5 +10,7 @@ class Dosen extends Model
 
     protected $primaryKey = 'nidn';
 
-    protected $guarded = ['nidn', 'nama', 'created_at', 'updated_at'];
+    
+
+    protected $guarded = ['created_at', 'updated_at'];
 }

@@ -24,7 +24,7 @@ class MahasiswaController extends Controller
      */
     public function create()
     {
-        //
+        return view('mahasiswa.form-mahasiswa');
     }
 
     /**
@@ -32,7 +32,14 @@ class MahasiswaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+            $validated = $request->validate([
+            'npm' => 'required|numeric|unique:mahasiswa',
+            'nidn' => 'required|numeric',
+            'nama' => 'required',
+        ]);
+        // $validated['nidn'] = 1;
+        Mahasiswa::create($validated);
+        return redirect()->route('mahasiswa')->with('add', 'Data berhasil ditambah');
     }
 
     /**
@@ -46,24 +53,34 @@ class MahasiswaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $npm)
     {
-        //
+        $dataMahasiswa = Mahasiswa::where('npm', $npm)->firstOrFail();
+        return view('mahasiswa.form-edit-mahasiswa', compact('dataMahasiswa'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $npm)
     {
-        //
+        $validated = $request->validate([
+            'nidn' => 'required|numeric',
+            'nama' => 'required',
+        ]);
+
+        Mahasiswa::where('npm', $npm)->update($validated);
+        return redirect()->route('mahasiswa')->with('edit', 'Data berhasil diubah');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $npm)
     {
-        //
+        Mahasiswa::where('npm', $npm)->delete();
+
+        return redirect()->route('mahasiswa')
+                ->with('delete', 'Data berhasil dihapus');
     }
 }

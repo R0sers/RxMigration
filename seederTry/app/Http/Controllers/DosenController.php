@@ -16,6 +16,7 @@ class DosenController extends Controller
         $dataDosen = Dosen::all();
 
         return view('dosen.dosen', compact('dataDosen'));
+        
     }
 
     /**
@@ -23,7 +24,7 @@ class DosenController extends Controller
      */
     public function create()
     {
-        //
+       return view('dosen.form-dosen');
     }
 
     /**
@@ -31,7 +32,13 @@ class DosenController extends Controller
      */
     public function store(Request $request)
     {
-        //
+          // dd($request->nidn);
+        $validated = $request->validate([
+            'nama' => 'required',
+        ]);
+        // $validated['nidn'] = 1;
+        Dosen::create($validated);
+        return redirect()->route('dosen')->with('add', 'Data berhasil ditambah');
     }
 
     /**
@@ -45,24 +52,33 @@ class DosenController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $nidn)
     {
-        //
+        $dataDosen = Dosen::where('nidn', $nidn)->firstOrFail();
+        return view('dosen.form-edit-dosen', compact('dataDosen'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $nidn)
     {
-        //
+        $validated = $request->validate([
+            'nama' => 'required',
+        ]);
+
+        Dosen::where('nidn', $nidn)->update($validated);
+        return redirect()->route('dosen')->with('edit', 'Data berhasil diubah');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $nidn)
     {
-        //
+        Dosen::where('nidn', $nidn)->delete();
+
+        return redirect()->route('dosen')
+                ->with('delete', 'Data berhasil dihapus');
     }
 }

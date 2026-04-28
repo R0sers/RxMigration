@@ -23,7 +23,7 @@ class KRSController extends Controller
      */
     public function create()
     {
-        //
+        return view('krs.form-krs');
     }
 
     /**
@@ -31,7 +31,15 @@ class KRSController extends Controller
      */
     public function store(Request $request)
     {
-        //
+              // dd($request->nidn);
+        $validated = $request->validate([
+            'id' => 'required|numeric|unique:krs',
+            'nidn' => 'required|numeric',
+            'nama' => 'required',
+        ]);
+        // $validated['nidn'] = 1;
+        KRS::create($validated);
+        return redirect()->route('krs')->with('add', 'Data berhasil ditambah');
     }
 
     /**
@@ -47,7 +55,8 @@ class KRSController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $dataKRS = KRS::where('id', $id)->firstOrFail();
+        return view('krs.form-edit-krs', compact('dataKRS'));
     }
 
     /**
@@ -55,14 +64,24 @@ class KRSController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'nidn' => 'required|numeric',
+            'nama' => 'required',
+        ]);
+
+        KRS::where('id', $id)->update($validated);
+        return redirect()->route('krs')->with('edit', 'Data berhasil diubah');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $nidn)
     {
-        //
+        KRS::where('nidn', $nidn)->delete();
+
+        return redirect()->route('krs')
+                ->with('delete', 'Data berhasil dihapus');
     }
+
 }

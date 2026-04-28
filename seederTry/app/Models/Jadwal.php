@@ -10,5 +10,5 @@ class Jadwal extends Model
 
     protected $primaryKey = 'id';
 
-    protected $guarded = ['id', 'kode_matakuliah', 'nidn', 'kelas', 'hari'];
+    protected $guarded = ['created_at', 'updated_at'];
 }
