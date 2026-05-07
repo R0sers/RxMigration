@@ -46,7 +46,14 @@ class DosenController extends Controller
      */
     public function show(string $id)
     {
-        //
+           //query db builder
+        //$detailBuku = DB::table('buku')->where('id', $id)->firstOrFail();
+
+        //orm
+        // $detailBuku = Buku::find($id);
+        $dataDosen = Dosen::findOrFail($id);        
+
+        return view('dosen.detail-dosen', compact('dataDosen'));
     }
 
     /**

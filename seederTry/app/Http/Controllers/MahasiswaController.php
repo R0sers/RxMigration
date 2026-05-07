@@ -47,7 +47,14 @@ class MahasiswaController extends Controller
      */
     public function show(string $id)
     {
-        //
+          //query db builder
+        //$detailBuku = DB::table('buku')->where('id', $id)->firstOrFail();
+
+        //orm
+        // $detailBuku = Buku::find($id);
+        $dataMahasiswa = Mahasiswa::findOrFail($id);        
+
+        return view('mahasiswa.detail-mahasiswa', compact('dataMahasiswa'));
     }
 
     /**

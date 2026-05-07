@@ -38,6 +38,10 @@
                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
                             </form>
                             <a href="{{ route('form-edit-mahasiswa', $mahasiswa->npm) }}" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="{{ route('detail-mahasiswa', ['id' => $mahasiswa->npm]) }}" class="btn btn-primary btn-sm">
+                                <i class="bi bi-eye"></i>
+                                Detail
+                            </a>
                         </td>
                     </tr>
                     @endforeach

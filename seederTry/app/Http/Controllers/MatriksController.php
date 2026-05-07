@@ -47,7 +47,14 @@ class MatriksController extends Controller
      */
     public function show(string $id)
     {
-        
+                  //query db builder
+        //$detailBuku = DB::table('buku')->where('id', $id)->firstOrFail();
+
+        //orm
+        // $detailBuku = Buku::find($id);
+        $dataJadwal = Jadwal::findOrFail($id);        
+
+        return view('matriks.detail-matriks', compact('dataJadwal'));
     }
 
     /**

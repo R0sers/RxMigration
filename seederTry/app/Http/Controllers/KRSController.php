@@ -47,7 +47,14 @@ class KRSController extends Controller
      */
     public function show(string $id)
     {
-        //
+                   //query db builder
+        //$detailBuku = DB::table('buku')->where('id', $id)->firstOrFail();
+
+        //orm
+        // $detailBuku = Buku::find($id);
+        $dataKRS = KRS::findOrFail($id);        
+
+        return view('krs.detail-krs', compact('dataKRS'));
     }
 
     /**
